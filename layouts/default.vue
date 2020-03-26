@@ -27,6 +27,7 @@
       <v-spacer />
       <v-btn text to="/login">Login</v-btn>
       <v-btn text to="/signup">Signup</v-btn>
+      <v-btn text to="/chat">Chatroom</v-btn>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>

@@ -9,7 +9,8 @@
 
 export const state = () => ({
   errors: null,
-  loading: false
+  loading: false,
+  token: null
 });
 export const getters = {
   isLoading(state) {
@@ -17,12 +18,15 @@ export const getters = {
   },
   errors(state) {
     return state.errors;
+  },
+  token(state) {
+    return state.token;
   }
 };
 
 export const mutations = {
-  SET_ERRORS(state, payload) {
-    state.errors = payload;
+  SET_ERRORS(state, errors) {
+    state.errors = errors;
   },
   CLEAR_ERRORS(state) {
     state.errors = null;
@@ -32,6 +36,9 @@ export const mutations = {
   },
   STOP_LOADING(state) {
     state.loading = false;
+  },
+  SET_TOKEN(state, token) {
+    state.token = token;
   }
 };
 
@@ -45,6 +52,7 @@ export const actions = {
         email: signupDetails.email,
         password: signupDetails.password
       });
+      commit("SET_TOKEN", res.data.token);
       localStorage.setItem("user-token", res.data.token);
       this.$axios.setToken(res.data.token, "Bearer");
       this.$router.push("/");
@@ -61,6 +69,7 @@ export const actions = {
       commit("CLEAR_ERRORS");
       commit("SET_LOADING");
       const res = await this.$axios.post("user/login", loginDetails);
+      commit("SET_TOKEN", res.data.token);
       localStorage.setItem("user-token", res.data.token);
       this.$axios.setToken(res.data.token, "Bearer");
       this.$router.push("/");
