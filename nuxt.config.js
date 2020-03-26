@@ -50,7 +50,7 @@ export default {
     sockets: [
       {
         name: "home",
-        url: "http://localhost:8080",
+        url: "https://dbay-app.herokuapp.com",
         default: true,
         vuex: {
           // optional
@@ -69,7 +69,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "http://localhost:8080/api"
+    baseURL: "https://dbay-app.herokuapp.com/api"
   },
   /*
    ** vuetify module configuration
