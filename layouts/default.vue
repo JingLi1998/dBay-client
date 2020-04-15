@@ -1,27 +1,24 @@
 <template>
   <v-app dark>
-    <Nav v-bind:isLoggedIn="isLoggedIn" v-bind:currentUser="currentUser" />
+    <app-navbar :isLoggedIn="isLoggedIn" :currentUser="currentUser" />
     <nuxt />
-    <!-- <Foot /> -->
   </v-app>
 </template>
 
 <script>
-import Nav from "./partials/nav.vue";
-import Foot from "./partials/foot.vue";
+import AppNavbar from "./partials/AppNavbar.vue";
 import jwtDecode from "jwt-decode";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
-  components: { Nav, Foot },
+  components: { AppNavbar },
   computed: {
-    ...mapGetters("users", ["isLoggedIn", "currentUser"])
+    ...mapState("users", ["isLoggedIn", "currentUser"])
   },
   async beforeMount() {
     const token = localStorage.getItem("user-token");
     if (token) {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
       if (decodedToken.exp * 1000 > Date.now()) {
         await this.$store.dispatch("users/setToken", token);
         await this.$store.dispatch("users/getUserData");

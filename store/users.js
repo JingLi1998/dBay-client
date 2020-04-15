@@ -41,6 +41,14 @@ export const mutations = {
   },
   SET_IS_LOGGED_OUT(state) {
     state.isLoggedIn = false;
+  },
+  SET_LIKE(state, like) {
+    state.currentUser.likes.push(like);
+  },
+  DELETE_LIKE(state, dogId) {
+    state.currentUser.likes = [
+      ...state.currentUser.likes.filter(like => like.dogId !== dogId)
+    ];
   }
 };
 
@@ -102,6 +110,8 @@ export const actions = {
   async getUserData({ commit }) {
     try {
       const res = await this.$axios.get("user/profile");
+      res.data.user.comments = res.data.comments;
+      res.data.user.likes = res.data.likes;
       commit("SET_CURRENT_USER", res.data.user);
     } catch (error) {
       console.log(error);
@@ -140,5 +150,11 @@ export const actions = {
   },
   clearCurrentUser({ commit }) {
     commit("CLEAR_CURRENT_USER");
+  },
+  setLike({ commit }, like) {
+    commit("SET_LIKE", like);
+  },
+  deleteLike({ commit }, dogId) {
+    commit("DELETE_LIKE", dogId);
   }
 };

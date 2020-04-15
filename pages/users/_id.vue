@@ -12,12 +12,12 @@
             <v-col class="py-0">
               <v-list-item class="pl-0" color="rgba(0, 0, 0, .4)" dark>
                 <v-list-item-content>
-                  <v-list-item-title class="title">{{
+                  <v-list-item-title class="title">
+                    {{
                     currentUser.username
-                  }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ currentUser.bio }}</v-list-item-subtitle
-                  >
+                    }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>{{ currentUser.bio }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -26,7 +26,7 @@
         <div style="height: 50px; width:100%; background-color:white"></div>
       </v-card>
       <br />
-      <dog-list v-bind:dogs="currentUser.dogs" />
+      <dog-list :dogs="currentUser.dogs" />
     </v-col>
   </v-row>
 </template>

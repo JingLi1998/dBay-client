@@ -1,25 +1,25 @@
 <template>
   <div>
-    <v-row v-if="dog !== null" justify="center">
+    <v-row justify="center">
       <v-col cols="6">
         <v-row>
-          <dog-info-image v-bind:imageUrl="dog.imageUrl" />
+          <dog-info-image :imageUrl="dog.imageUrl" />
         </v-row>
         <v-divider class="my-5" />
         <v-row>
-          <dog-info-text v-bind:dog="dog" />
+          <dog-info-text :dog="dog" />
         </v-row>
         <v-divider class="my-5" />
         <v-row>
           <dog-info-comment
-            v-bind:comments="comments"
-            v-bind:currentUser="currentUser"
-            v-bind:isLoggedIn="isLoggedIn"
+            :comments="comments"
+            :currentUser="currentUser"
+            :isLoggedIn="isLoggedIn"
           />
         </v-row>
       </v-col>
       <v-col cols="3">
-        <dog-info-owner v-bind:owner="owner" />
+        <dog-info-owner :owner="owner" />
       </v-col>
     </v-row>
   </div>

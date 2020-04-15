@@ -2,7 +2,7 @@
   <v-card align="left" style="width:100%" class="px-5">
     <v-card-title>Comments</v-card-title>
     <v-card-subtitle class="pb-0">Show us what you think of the pupper!</v-card-subtitle>
-    <comment-list v-bind:comments="comments" v-bind:currentUser="currentUser" />
+    <comment-list :comments="comments" :currentUser="currentUser" />
     <comment-form v-if="isLoggedIn" />
   </v-card>
 </template>

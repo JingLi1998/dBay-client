@@ -27,7 +27,7 @@
         </div>
       </div>
       <div v-else>
-        <dog-list v-bind:dogs="owner.dogs" size="80" />
+        <dog-list :dogs="owner.dogs" size="80" />
       </div>
     </v-list>
   </v-card>

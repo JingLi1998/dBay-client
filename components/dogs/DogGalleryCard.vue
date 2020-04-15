@@ -4,7 +4,7 @@
       <base-image-overlay :imageUrl="dog.imageUrl" />
     </nuxt-link>
     <v-card-actions>
-      <dog-gallery-card-info :dog="dog" :currentUser="currentUser" />
+      <dog-gallery-card-info :dog="dog" :currentUser="currentUser" :index="index" />
     </v-card-actions>
   </v-card>
 </template>

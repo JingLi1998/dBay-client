@@ -25,7 +25,7 @@
     </v-row>
     <v-row v-else>
       <v-col class="py-3" v-for="(dog, index) in dogs" :key="index" cols="3">
-        <dog-gallery-card v-bind:dog="dog" v-bind:index="index" v-bind:currentUser="currentUser" />
+        <dog-gallery-card :dog="dog" :index="index" :currentUser="currentUser" />
       </v-col>
     </v-row>
   </v-container>

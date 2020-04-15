@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col justify="center" align="center">
+      <v-col align="center" justify="center">
         <div v-if="loading">Loading...</div>
-        <dog-info v-else />
+        <dog-info v-else-if="dog !== null" />
       </v-col>
     </v-row>
   </v-container>

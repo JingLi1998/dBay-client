@@ -1,5 +1,7 @@
 <template>
-  <dog-gallery />
+  <div>
+    <dog-gallery />
+  </div>
 </template>
 
 <script>

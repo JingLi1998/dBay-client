@@ -60,6 +60,12 @@ export const mutations = {
   },
   DELETE_LIKE(state, index) {
     state.likes.splice(index, 1);
+  },
+  INCREMENT_LIKE(state, index) {
+    state.dogs[index].likeCount++;
+  },
+  DECREMENT_LIKE(state, index) {
+    state.dogs[index].likeCount--;
   }
 };
 
@@ -122,6 +128,25 @@ export const actions = {
     } catch (error) {
       console.log(error);
       dispatch("ui/stopButtonLoading", null, { root: true });
+    }
+  },
+  async likeDog({ commit, dispatch }, { dogId, index }) {
+    try {
+      const res = await this.$axios.get(`/dogs/${dogId}/like`);
+      dispatch("users/setLike", res.data.like, { root: true });
+      commit("INCREMENT_LIKE", index);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async unlikeDog({ commit, dispatch }, { dogId, index }) {
+    try {
+      const res = await this.$axios.get(`/dogs/${dogId}/unlike`);
+      console.log(res);
+      dispatch("users/deleteLike", dogId, { root: true });
+      commit("DECREMENT_LIKE", index);
+    } catch (error) {
+      console.log(error);
     }
   }
 };
