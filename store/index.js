@@ -1,7 +1,8 @@
 const getDefaultState = () => {
   return {
     errors: {},
-    loading: false
+    loading: false,
+    message: null
   };
 };
 

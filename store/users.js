@@ -1,26 +1,22 @@
-// const getDefaultState = () => {
-//   return {
-//     errors: null,
-//     loading: false
-//   };
-// };
-
-// export const state = getDefaultState();
-
 export const state = () => ({
   errors: null,
-  loading: false,
-  token: null
+  token: null,
+  currentUser: null,
+  isLoggedIn: false
 });
+
 export const getters = {
-  isLoading(state) {
-    return state.loading;
-  },
   errors(state) {
     return state.errors;
   },
   token(state) {
     return state.token;
+  },
+  currentUser(state) {
+    return state.currentUser === null ? null : state.currentUser;
+  },
+  isLoggedIn(state) {
+    return state.isLoggedIn;
   }
 };
 
@@ -31,57 +27,118 @@ export const mutations = {
   CLEAR_ERRORS(state) {
     state.errors = null;
   },
-  SET_LOADING(state) {
-    state.loading = true;
-  },
-  STOP_LOADING(state) {
-    state.loading = false;
-  },
   SET_TOKEN(state, token) {
     state.token = token;
+  },
+  SET_CURRENT_USER(state, user) {
+    state.currentUser = user;
+  },
+  CLEAR_CURRENT_USER(state) {
+    state.currentUser = null;
+  },
+  SET_IS_LOGGED_IN(state) {
+    state.isLoggedIn = true;
+  },
+  SET_IS_LOGGED_OUT(state) {
+    state.isLoggedIn = false;
   }
 };
 
 export const actions = {
-  async signupUser({ commit }, signupDetails) {
+  async signupUser({ dispatch }, signupDetails) {
     try {
-      commit("CLEAR_ERRORS");
-      commit("SET_LOADING");
+      dispatch("clearErrors");
+      dispatch("ui/setLoading", null, { root: true });
       await this.$axios.post("user/signup", signupDetails);
       const res = await this.$axios.post("user/login", {
         email: signupDetails.email,
         password: signupDetails.password
       });
-      commit("SET_TOKEN", res.data.token);
       localStorage.setItem("user-token", res.data.token);
-      this.$axios.setToken(res.data.token, "Bearer");
+      dispatch("setToken", res.data.token);
+      dispatch("getUserData");
+      dispatch("setIsLoggedIn");
       this.$router.push("/");
       setTimeout(() => {
-        commit("STOP_LOADING");
+        dispatch("ui/stopLoading", null, { root: true });
       }, 500);
     } catch (error) {
-      commit("SET_ERRORS", error.response.data);
-      commit("STOP_LOADING");
+      console.log(error.response);
+      dispatch("setErrors", error.response.data);
+      dispatch("ui/stopLoading", null, { root: true });
     }
   },
-  async loginUser({ commit }, loginDetails) {
+  async loginUser({ dispatch }, loginDetails) {
     try {
-      commit("CLEAR_ERRORS");
-      commit("SET_LOADING");
+      dispatch("clearErrors");
+      dispatch("ui/setLoading", null, { root: true });
       const res = await this.$axios.post("user/login", loginDetails);
-      commit("SET_TOKEN", res.data.token);
       localStorage.setItem("user-token", res.data.token);
-      this.$axios.setToken(res.data.token, "Bearer");
+      dispatch("setToken", res.data.token);
+      dispatch("getUserData");
+      dispatch("setIsLoggedIn");
       this.$router.push("/");
       setTimeout(() => {
-        commit("STOP_LOADING");
+        dispatch("ui/stopLoading", null, { root: true });
       }, 500);
     } catch (error) {
-      commit("SET_ERRORS", error.response.data);
-      commit("STOP_LOADING");
+      dispatch("setErrors", error.response.data);
+      dispatch("ui/stopLoading", null, { root: true });
     }
+  },
+  async logoutUser({ dispatch }) {
+    try {
+      dispatch("ui/setLoading", null, { root: true });
+      dispatch("clearCurrentUser");
+      dispatch("setIsLoggedOut");
+      localStorage.removeItem("user-token");
+      this.$router.push("/");
+      dispatch("ui/stopLoading", null, { root: true });
+    } catch (error) {
+      console.log(error);
+      dispatch("ui/stopLoading", null, { root: true });
+    }
+  },
+  async getUserData({ commit }) {
+    try {
+      const res = await this.$axios.get("user/profile");
+      commit("SET_CURRENT_USER", res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async updateUserData({ commit, dispatch }, { user, image }) {
+    try {
+      dispatch("ui/setLoading", null, { root: true });
+      let res = await this.$axios.put("/user/profile", user);
+      if (image !== null) {
+        res = await this.$axios.post("/user/profile/uploadImage", image);
+      }
+      commit("SET_CURRENT_USER", res.data.user);
+      console.log(res.data);
+      dispatch("ui/stopLoading", null, { root: true });
+    } catch (error) {
+      console.log(error);
+      dispatch("ui/stopLoading", null, { root: true });
+    }
+  },
+  setErrors({ commit }, errors) {
+    commit("SET_ERRORS", errors);
   },
   clearErrors({ commit }) {
     commit("CLEAR_ERRORS");
+  },
+  setToken({ commit }, token) {
+    this.$axios.setToken(token, "Bearer");
+    commit("SET_TOKEN", token);
+  },
+  setIsLoggedIn({ commit }) {
+    commit("SET_IS_LOGGED_IN");
+  },
+  setIsLoggedOut({ commit }) {
+    commit("SET_IS_LOGGED_OUT");
+  },
+  clearCurrentUser({ commit }) {
+    commit("CLEAR_CURRENT_USER");
   }
 };
