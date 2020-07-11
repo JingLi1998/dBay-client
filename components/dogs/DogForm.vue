@@ -1,6 +1,14 @@
 <template>
-  <v-row style="padding-top: 50px" align="center" justify="center">
+  <v-row style="padding-top: 25px" align="center" justify="center">
     <v-col align="center" cols="3">
+      <v-img
+        src="/images/corgi.jpg"
+        aspect-ratio="1"
+        style="border-radius:50%; border: solid grey 5px"
+        width="300px"
+        height="300px"
+      />
+      <br />
       <h1>Post a New Dog</h1>
       <v-form ref="newDogForm" @submit.prevent="submitNewDog">
         <v-text-field
@@ -50,7 +58,9 @@
           required
         />
         <br />
-        <v-btn type="submit" :disabled="loading" :loading="loading">Post Dog</v-btn>
+        <v-btn type="submit" :disabled="loading" :loading="loading"
+          >Post Dog</v-btn
+        >
       </v-form>
     </v-col>
   </v-row>
@@ -95,7 +105,6 @@ export default {
           this.$refs.newDogForm.reset();
           this.loading = false;
         } catch (error) {
-          console.log(error);
           this.loading = false;
         }
     }

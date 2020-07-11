@@ -20,17 +20,26 @@
     />
     <v-text-field
       v-model="signupData.confirmPassword"
-      :rules="[v => (!!v && v) === signupData.password ||'Passwords do not match']"
+      :rules="[
+        v => (!!v && v) === signupData.password || 'Passwords do not match'
+      ]"
       label="Confirm Password"
       required
     />
-    <v-btn type="submit" :disabled="loading" :loading="loading" style="min-width:150px">Signup</v-btn>
+    <v-btn
+      type="submit"
+      :disabled="loading"
+      :loading="loading"
+      style="min-width:150px"
+      >Signup</v-btn
+    >
     <v-fade-transition>
       <v-card-subtitle
         v-if="errors !== null"
         transition="fade"
         class="error--text"
-      >Errors: {{errors.error}}</v-card-subtitle>
+        >Errors: {{ errors.error }}</v-card-subtitle
+      >
     </v-fade-transition>
   </v-form>
 </template>
@@ -57,7 +66,6 @@ export default {
   },
   methods: {
     async signup() {
-      console.log(this.signupData);
       if (this.$refs.signupForm.validate())
         return this.$store.dispatch("users/signupUser", this.signupData);
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="center">
+    <v-row v-if="dog !== null" justify="center">
       <v-col cols="6">
         <v-row>
           <dog-info-image :imageUrl="dog.imageUrl" />

@@ -77,7 +77,6 @@ export const actions = {
       commit("SET_DOGS", res.data);
       dispatch("ui/stopLoading", null, { root: true });
     } catch (error) {
-      console.log(error);
       dispatch("ui/stopLoading", null, { root: true });
     }
   },
@@ -91,7 +90,6 @@ export const actions = {
       commit("SET_LIKES", res.data.likes);
       dispatch("ui/stopLoading", null, { root: true });
     } catch (error) {
-      console.log(error);
       dispatch("ui/stopLoading", null, { root: true });
     }
   },
@@ -102,7 +100,6 @@ export const actions = {
       commit("DELETE_DOG", index);
       dispatch("ui/stopLoading", null, { root: true });
     } catch (error) {
-      console.log(error);
       dispatch("ui/stopLoading", null, { root: true });
     }
   },
@@ -113,7 +110,6 @@ export const actions = {
       commit("SET_COMMENT", res.data);
       dispatch("ui/stopButtonLoading", null, { root: true });
     } catch (error) {
-      console.log(error);
       dispatch("ui/stopButtonLoading", null, { root: true });
     }
   },
@@ -126,7 +122,6 @@ export const actions = {
       commit("DELETE_COMMENT", index);
       dispatch("ui/stopButtonLoading", null, { root: true });
     } catch (error) {
-      console.log(error);
       dispatch("ui/stopButtonLoading", null, { root: true });
     }
   },
@@ -135,18 +130,13 @@ export const actions = {
       const res = await this.$axios.get(`/dogs/${dogId}/like`);
       dispatch("users/setLike", res.data.like, { root: true });
       commit("INCREMENT_LIKE", index);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   },
   async unlikeDog({ commit, dispatch }, { dogId, index }) {
     try {
       const res = await this.$axios.get(`/dogs/${dogId}/unlike`);
-      console.log(res);
       dispatch("users/deleteLike", dogId, { root: true });
       commit("DECREMENT_LIKE", index);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 };

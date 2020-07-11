@@ -71,7 +71,6 @@ export const actions = {
         dispatch("ui/stopLoading", null, { root: true });
       }, 500);
     } catch (error) {
-      console.log(error.response);
       dispatch("setErrors", error.response.data);
       dispatch("ui/stopLoading", null, { root: true });
     }
